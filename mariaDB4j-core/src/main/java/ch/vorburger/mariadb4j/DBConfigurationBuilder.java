@@ -33,6 +33,7 @@ public class DBConfigurationBuilder {
 
     protected static final String WIN32 = "win32";
     protected static final String LINUX = "linux";
+    protected static final String LINUX32 = "linux32";
     protected static final String OSX = "osx";
 
     private static final String DEFAULT_DATA_DIR = SystemUtils.JAVA_IO_TMPDIR + "/MariaDB4j/data";
@@ -41,7 +42,7 @@ public class DBConfigurationBuilder {
 
     // all these are just some defaults
     protected String osDirectoryName = SystemUtils.IS_OS_WINDOWS ? WIN32
-            : SystemUtils.IS_OS_MAC ? OSX : LINUX;
+            : SystemUtils.IS_OS_MAC ? OSX : SystemUtils.OS_ARCH.contains("64") ? LINUX : LINUX32;
     protected String baseDir = SystemUtils.JAVA_IO_TMPDIR + "/MariaDB4j/base";
     protected String libDir = null;
 
@@ -200,6 +201,8 @@ public class DBConfigurationBuilder {
                 databaseVersion = "mariadb-10.1.9";
             else if (LINUX.equals(getOS()))
                 databaseVersion = "mariadb-10.1.13";
+            else if (LINUX32.equals(getOS()))
+                databaseVersion = "mariadb-10.1.24";
             else if (WIN32.equals(getOS()))
                 databaseVersion = "mariadb-10.1.20";
             else
